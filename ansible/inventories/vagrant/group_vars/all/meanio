@@ -1,0 +1,8 @@
+meanio_dir: /vagrant
+meanio_src_dir: "{{ meanio_dir }}"
+meanio_node_env: development
+meanio_public_fqdn: local.mean.io
+meanio_public_alias: "{{ meanio_public_fqdn }}"
+meanio_username: vagrant
+meanio_twitter_api_key: CA50sA6vBMiLaxwsbUKqBlQ8x
+meanio_twitter_api_secret: TpLeFzLbPQgtM4Fts5caJOj2aNePowaTrS3XHEDLlxHwx15Snc

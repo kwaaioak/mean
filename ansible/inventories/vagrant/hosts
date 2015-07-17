@@ -1,0 +1,8 @@
+[database]
+localhost ansible_connection=local
+
+[haproxy]
+localhost ansible_connection=local
+
+[meanio]
+localhost ansible_connection=local

@@ -1,0 +1,20 @@
+haproxy_data_dir: /var/lib/haproxy
+haproxy_enable_stats: true
+
+haproxy_meanio_hosts: [ "localhost" ]
+haproxy_meanio_fqdn: "{{ meanio_public_alias }}"
+
+haproxy_ssl: null # One of null, 'selfsigned'
+haproxy_ssl_cert: "{{ meanio_public_alias }}"
+haproxy_ssl_key_filename: "{{ haproxy_ssl_cert }}.key"
+haproxy_ssl_key_rsa_filename: "{{ haproxy_ssl_key_filename }}.rsa"
+haproxy_ssl_key_password: ""
+haproxy_ssl_cert_filename: "{{ haproxy_ssl_cert }}.crt"
+haproxy_ssl_dir: "/etc/haproxy"
+haproxy_ssl_pem_path: "{{ haproxy_ssl_dir }}/{{ haproxy_ssl_cert }}.pem"
+
+haproxy_ssl_x509_country: "US"
+haproxy_ssl_x509_state: "California"
+haproxy_ssl_x509_locality: "Santa Monica"
+haproxy_ssl_x509_org: "Engineering"
+haproxy_ssl_x509_cn: "{{ meanio_public_alias }}"

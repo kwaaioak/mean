@@ -1,0 +1,14 @@
+- hosts: database
+  sudo: yes
+  roles:
+  - mongo
+
+- hosts: meanio
+  sudo: yes
+  roles:
+  - meanio
+
+- hosts: haproxy
+  sudo: yes
+  roles:
+  - haproxy

@@ -1,0 +1,38 @@
+#
+# MeanIO pre-installation
+#
+
+- name: Create cache directory
+  file: path={{ cache_dir }} state=directory
+
+- name: Download NodeJS setup (per http://learn.mean.io)
+  get_url: url=https://deb.nodesource.com/setup dest={{ cache_dir }}/nodejs-setup mode=0755
+
+- name: Install NodeJS (per http://learn.mean.io)
+  command: "{{ cache_dir }}/nodejs-setup creates=/etc/apt/sources.list.d/nodesource.list"
+
+- name: Install MeanIO apt dependencies
+  apt: name={{ item }} state=latest
+  with_items:
+    - nodejs
+    - git
+
+#- name: Symlink NodeJS
+#  file: src=/usr/bin/nodejs path=/usr/bin/node state=link
+
+- name: Install MeanIO NPM packages
+  npm: name={{ item }} global=yes state=latest
+  with_items:
+    - npm
+    - mean-cli
+    - gulp
+    - bower
+
+- name: Build MeanIO
+  include: build.yml
+  when: meanio_src_dir is defined
+
+- name: Configure MeanIO
+  include: configure.yml
+  when: meanio_dir is defined
+  

@@ -1,0 +1,8 @@
+#
+# MongoDB pre-installation
+#
+
+- name: Install MongoDB dependencies
+  apt: name={{ item }} state=latest
+  with_items:
+    - mongodb

@@ -1,0 +1,3 @@
+meanio_init: upstart
+meanio_dir:
+meanio_node_env: development

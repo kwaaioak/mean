@@ -1,0 +1,59 @@
+global
+    log /dev/log	local0
+    log /dev/log	local1 notice
+    chroot {{ haproxy_data_dir }}
+    user haproxy
+    group haproxy
+    daemon
+    tune.ssl.default-dh-param 2048
+
+defaults
+    log	global
+    mode	http
+    option	httplog
+    option	dontlognull
+    timeout connect 5000
+    timeout client 50000
+    timeout server 50000
+{% if haproxy_enable_stats %}
+    stats enable
+    stats uri /haproxy-status
+{% endif %}
+    errorfile 400 /etc/haproxy/errors/400.http
+    errorfile 403 /etc/haproxy/errors/403.http
+    errorfile 408 /etc/haproxy/errors/408.http
+    errorfile 500 /etc/haproxy/errors/500.http
+    errorfile 502 /etc/haproxy/errors/502.http
+    errorfile 503 /etc/haproxy/errors/503.http
+    errorfile 504 /etc/haproxy/errors/504.http
+
+frontend http
+    bind *:80
+    mode http
+{% if haproxy_meanio_hosts|length > 0 %}
+    acl host_meanio hdr(host) -i {{ haproxy_meanio_fqdn }}
+    use_backend meanio_cluster if host_meanio
+{% endif %}
+
+{% if haproxy_ssl %}
+frontend https
+    bind *:443 ssl crt {{ haproxy_ssl_pem_path }}
+    mode http
+    {% if haproxy_meanio_hosts|length > 0 %}
+    acl host_meanio hdr(host) -i {{ haproxy_meanio_fqdn }}
+    use_backend meanio_cluster if host_meanio
+    {% endif %}
+{% endif %}
+
+{% if haproxy_meanio_hosts|length > 0 %}
+backend meanio_cluster
+    mode http
+    balance roundrobin
+    option forwardfor
+    option httpchk HEAD / HTTP/1.1\r\nHost:localhost
+    {% for node in haproxy_meanio_hosts %}
+    server meanio{{ loop.index0 }} {{ node }}:3000 check
+    {% endfor %}
+    http-request set-header X-Forwarded-Port %[dst_port]
+    http-request add-header X-Forwarded-Proto https if { ssl_fc }
+{% endif %}

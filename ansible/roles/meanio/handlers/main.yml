@@ -1,0 +1,5 @@
+- name: Reload systemd config
+  command: "/bin/systemctl --system daemon-reload"
+
+- name: Restart MeanIO developer service
+  service: name=meanio-developer state=restarted

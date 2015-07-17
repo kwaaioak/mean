@@ -1,0 +1,36 @@
+#
+# HAProxy pre-installation
+#
+
+- name: Register HAProxy package repository
+  apt_repository: repo='ppa:vbernat/haproxy-1.5'
+
+- name: Create HAProxy group
+  group: name=haproxy gid=709 system=yes
+
+- name: Create HAProxy user
+  user: name=haproxy home="{{ haproxy_data_dir }}" uid=709 system=yes group=haproxy createhome=no
+
+- name: Create HAProxy data directory
+  file: path="{{ haproxy_data_dir }}" state=directory recurse=yes owner=haproxy group=haproxy
+
+#
+# HAProxy installation
+#
+ 
+- name: Install dependent HAProxy packages
+  apt: name={{ item }} state=latest
+  with_items:
+    - haproxy
+
+#
+# HAProxy configuration
+#
+
+- include: ssl-selfsigned.yml
+  when: haproxy_ssl == 'selfsigned'
+
+- name: Create HAProxy configuration
+  template: src=haproxy.cfg.j2 dest="/etc/haproxy/haproxy.cfg"
+  notify:
+    - Restart HAProxy
