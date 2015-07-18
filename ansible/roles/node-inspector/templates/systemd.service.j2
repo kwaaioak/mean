@@ -1,0 +1,13 @@
+[Unit]
+Description=Node Inspector service
+ConditionPathExists={{ node_inspector_install_root }}/node-inspector
+
+[Service]
+WorkingDirectory=/
+ExecStart={{ node_inspector_install_root }}/node-inspector
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=process
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

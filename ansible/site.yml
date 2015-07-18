@@ -8,6 +8,7 @@
   sudo: yes
   roles:
   - meanio
+  - node-inspector
 
 - hosts: haproxy
   sudo: yes

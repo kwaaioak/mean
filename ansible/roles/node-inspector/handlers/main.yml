@@ -1,0 +1,5 @@
+- name: Reload systemd config
+  command: "/bin/systemctl --system daemon-reload"
+
+- name: Restart Node Inspector service
+  service: name=node-inspector state=restarted

@@ -1,0 +1,40 @@
+#
+# Node Inspector installation
+#
+
+- name: Download NodeJS setup (per http://learn.mean.io)
+  get_url: url=https://deb.nodesource.com/setup dest={{ cache_dir }}/nodejs-setup mode=0755
+
+- name: Install NodeJS (per http://learn.mean.io)
+  command: "{{ cache_dir }}/nodejs-setup creates=/etc/apt/sources.list.d/nodesource.list"
+
+- name: Install Node Inspector apt dependencies
+  apt: name={{ item }} state=latest
+  with_items:
+    - nodejs
+
+- name: Install Node Inspector NPM packages
+  npm: name={{ item }} global=yes state=latest
+  with_items:
+    - npm
+
+- name: Install Node Inspector
+  npm: name={{ item }} global=yes state=latest
+  with_items:
+    - node-inspector
+
+# Make sure all services have been (re)started
+- meta: flush_handlers
+
+- name: Install Node Inspector systemd service
+  when: node_inspector_init|default(None) == 'systemd'
+  template: src=systemd.service.j2 dest="/etc/systemd/system/node-inspector.service"
+  notify:
+  - Reload systemd config
+  - Restart Node Inspector service
+
+- name: Install Node Inspector upstart service
+  when: node_inspector_init|default(None) == 'upstart'
+  template: src=upstart.conf.j2 dest="/etc/init/node-inspector.conf"
+  notify:
+  - Restart Node Inspector service

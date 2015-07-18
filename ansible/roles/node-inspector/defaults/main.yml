@@ -1,0 +1,2 @@
+node_inspector_install_root: /usr/bin
+node_inspector_init: "{{ ansible_init }}"
