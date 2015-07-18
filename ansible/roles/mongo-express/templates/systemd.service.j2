@@ -1,0 +1,13 @@
+[Unit]
+Description=Mongo Express console
+ConditionPathExists={{ mongo_express_install_root }}/node_modules/mongo-express/app.js
+
+[Service]
+WorkingDirectory={{ mongo_express_install_root }}/node_modules/mongo-express }}
+ExecStart=/usr/bin/node app
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=process
+Restart=on-failure
+
+[Install]
+WantedBy=multi-user.target

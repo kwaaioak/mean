@@ -1,0 +1,5 @@
+- name: Reload systemd config
+  command: "/bin/systemctl --system daemon-reload"
+
+- name: Restart Mongo Express service
+  service: name=mongo-express state=restarted

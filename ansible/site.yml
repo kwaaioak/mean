@@ -2,6 +2,7 @@
   sudo: yes
   roles:
   - mongo
+  - mongo-express
 
 - hosts: meanio
   sudo: yes

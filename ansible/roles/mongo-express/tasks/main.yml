@@ -1,0 +1,43 @@
+#
+# Mongo Express installation
+#
+
+- name: Create cache directory
+  file: path={{ cache_dir }} state=directory
+
+- name: Download NodeJS setup (per http://learn.mean.io)
+  get_url: url=https://deb.nodesource.com/setup dest={{ cache_dir }}/nodejs-setup mode=0755
+
+- name: Install NodeJS (per http://learn.mean.io)
+  command: "{{ cache_dir }}/nodejs-setup creates=/etc/apt/sources.list.d/nodesource.list"
+
+- name: Install Mongo Express apt dependencies
+  apt: name={{ item }} state=latest
+  with_items:
+    - nodejs
+
+- name: Install Mongo Express NPM packages
+  npm: name={{ item }} global=yes state=latest
+  with_items:
+    - npm
+
+- name: Install Mongo Express
+  npm: name={{ item }} global=yes state=latest
+  with_items:
+    - mongo-express
+
+- name: Configure Mongo Express
+  template: src=config.js.j2 dest="{{ mongo_express_install_root }}/node_modules/mongo-express/config.js"
+
+- name: Install Mongo Express systemd service
+  when: mongo_express_init|default(None) == 'systemd'
+  template: src=systemd.service.j2 dest="/etc/systemd/system/mongo-express.service"
+  notify:
+  - Reload systemd config
+  - Restart Mongo Express service
+
+- name: Install Mongo Express upstart service
+  when: mongo_express_init|default(None) == 'upstart'
+  template: src=upstart.conf.j2 dest="/etc/init/mongo-express.conf"
+  notify:
+  - Restart Mongo Express service

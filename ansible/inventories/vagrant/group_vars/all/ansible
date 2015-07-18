@@ -1,1 +1,2 @@
 cache_dir: /vagrant/cache/ansible
+ansible_init: upstart
