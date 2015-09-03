@@ -1,0 +1,4 @@
+- name: Configure Mean
+  template: src=mean.config.js.j2 dest="{{ mean_dir }}/config/env/{{ mean_node_env }}.js"
+  notify:
+  - Restart Mean developer service

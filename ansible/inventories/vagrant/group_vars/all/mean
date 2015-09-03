@@ -1,0 +1,8 @@
+mean_dir: /vagrant
+mean_src_dir: "{{ mean_dir }}"
+mean_node_env: development
+mean_public_fqdn: local.mean.io
+mean_public_alias: "{{ mean_public_fqdn }}"
+mean_username: vagrant
+mean_twitter_api_key: CA50sA6vBMiLaxwsbUKqBlQ8x
+mean_twitter_api_secret: TpLeFzLbPQgtM4Fts5caJOj2aNePowaTrS3XHEDLlxHwx15Snc

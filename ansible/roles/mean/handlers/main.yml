@@ -1,0 +1,5 @@
+- name: Reload systemd config
+  command: "/bin/systemctl --system daemon-reload"
+
+- name: Restart Mean developer service
+  service: name=mean-developer state=restarted

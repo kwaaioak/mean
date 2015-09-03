@@ -1,0 +1,31 @@
+#
+# Mean source code build
+#
+
+- name: Install Mean build dependencies
+  apt: name={{ item }} state=latest
+  with_items:
+    - g++
+    - libkrb5-dev
+
+- name: Install Mean NPM dependencies
+  sudo: no
+  command: npm install
+  args:
+    chdir: "{{ mean_src_dir }}"
+
+- name: Install Mean developer systemd service
+  when: mean_init|default(None) == 'systemd'
+  template: src=mean-developer.service.j2 dest="/etc/systemd/system/mean-developer.service"
+  notify:
+  - Reload systemd config
+  - Restart Mean developer service
+
+- name: Install Mean developer upstart service
+  when: mean_init|default(None) == 'upstart'
+  template: src=mean-developer.upstart.j2 dest="/etc/init/mean-developer.conf"
+  notify:
+  - Restart Mean developer service
+
+- name: Start Mean developer service
+  service: name=mean-developer state=started

@@ -7,7 +7,7 @@
 - hosts: meanio
   sudo: yes
   roles:
-  - meanio
+  - mean
   - node-inspector
 
 - hosts: haproxy

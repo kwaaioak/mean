@@ -1,0 +1,3 @@
+mean_init: upstart
+mean_dir:
+mean_node_env: development

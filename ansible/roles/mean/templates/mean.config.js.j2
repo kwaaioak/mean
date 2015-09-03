@@ -11,7 +11,7 @@ module.exports = {
   mongoose: {
     debug: false
   },
-  hostname: 'http://{{ meanio_public_alias }}',
+  hostname: 'http://{{ mean_public_alias }}',
   app: {
     name: 'MeanIO - Development'
   },
@@ -22,31 +22,31 @@ module.exports = {
       facebook: {
         clientID: 'DEFAULT_APP_ID',
         clientSecret: 'APP_SECRET',
-        callbackURL: 'http://{{ meanio_public_alias }}/api/auth/facebook/callback',
+        callbackURL: 'http://{{ mean_public_alias }}/api/auth/facebook/callback',
         enabled: false
       },
       twitter: {
-        clientID: '{{ meanio_twitter_api_key }}',
-        clientSecret: '{{ meanio_twitter_api_secret }}',
-        callbackURL: 'http://{{ meanio_public_alias }}/api/auth/twitter/callback',
-        enabled: {% if meanio_twitter_api_key|default(None) != '' %}true{% else %}false{% endif %}
+        clientID: '{{ mean_twitter_api_key }}',
+        clientSecret: '{{ mean_twitter_api_secret }}',
+        callbackURL: 'http://{{ mean_public_alias }}/api/auth/twitter/callback',
+        enabled: {% if mean_twitter_api_key|default(None) != '' %}true{% else %}false{% endif %}
       },
       github: {
         clientID: 'DEFAULT_APP_ID',
         clientSecret: 'APP_SECRET',
-        callbackURL: 'http://{{ meanio_public_alias }}/api/auth/github/callback',
+        callbackURL: 'http://{{ mean_public_alias }}/api/auth/github/callback',
         enabled: false
       },
       google: {
         clientID: 'DEFAULT_APP_ID',
         clientSecret: 'APP_SECRET',
-        callbackURL: 'http://{{ meanio_public_alias }}/api/auth/google/callback',
+        callbackURL: 'http://{{ mean_public_alias }}/api/auth/google/callback',
         enabled: false
       },
       linkedin: {
         clientID: 'DEFAULT_API_KEY',
         clientSecret: 'SECRET_KEY',
-        callbackURL: 'http://{{ meanio_public_alias }}/api/auth/linkedin/callback',
+        callbackURL: 'http://{{ mean_public_alias }}/api/auth/linkedin/callback',
         enabled: false
       }
   },

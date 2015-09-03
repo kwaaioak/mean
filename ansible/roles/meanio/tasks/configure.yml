@@ -1,4 +1,0 @@
-- name: Configure MeanIO
-  template: src=meanio.config.js.j2 dest="{{ meanio_dir }}/config/env/{{ meanio_node_env }}.js"
-  notify:
-  - Restart MeanIO developer service

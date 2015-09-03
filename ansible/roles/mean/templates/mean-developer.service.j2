@@ -1,0 +1,14 @@
+[Unit]
+Description=Mean Developer Service
+
+[Service]
+WorkingDirectory={{ mean_src_dir }}
+Environment="NODE_ENV={{ mean_node_env }}"
+ExecStart=gulp
+ExecReload=/bin/kill -HUP $MAINPID
+KillMode=process
+Restart=on-failure
+User={{ mean_username }}
+
+[Install]
+WantedBy=multi-user.target
